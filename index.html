@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>경기교사노조 | 전국 초등 보직교사 배치 기준 비교</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#172338;background:#f6f8fc}*{box-sizing:border-box}body{margin:0}main{max-width:960px;margin:auto;padding:26px 16px 56px}.brand{font-weight:900;letter-spacing:-.02em;color:#1655ad;font-size:16px}.card{background:#fff;border:1px solid #e0e6f1;border-radius:18px;padding:22px;margin-top:16px;box-shadow:0 5px 22px rgba(24,44,75,.04)}h1{font-size:clamp(24px,4vw,34px);letter-spacing:-.045em;margin:10px 0}p{line-height:1.65} .muted{color:#5c6b80;font-size:14px}.sliderhead{display:flex;align-items:center;justify-content:space-between;gap:12px}.big{font-size:30px;font-weight:900;color:#1655ad}input[type=range]{width:100%;accent-color:#1655ad;cursor:pointer;margin:18px 0 5px}.ends,.legend{display:flex;justify-content:space-between;color:#66768b;font-size:12px}.quick{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}button{padding:8px 12px;border-radius:9px;border:1px solid #d5deea;background:#fff;color:#243a5b;cursor:pointer;font-weight:650}button.active{background:#1655ad;color:white;border-color:#1655ad}.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f3f6fa;border-radius:12px;padding:15px}.stat small{color:#5c6b80}.stat strong{display:block;font-size:27px;margin-top:5px}.comparetitle{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;align-items:center}.bars{margin-top:15px}.barrow{display:grid;grid-template-columns:37px minmax(0,1fr) 86px 52px;align-items:center;gap:12px;min-height:35px;font-size:14px}.region{font-weight:650}.barbg{height:15px;background:#eff2f6;border-radius:5px;overflow:hidden}.bar{height:100%;background:#9ba9bc;border-radius:5px}.bar.gg{background:#1655ad}.num,.diff{text-align:right;font-variant-numeric:tabular-nums}.diff.up{color:#137c51}.diff.down{color:#ad3845}.ggrow{background:#edf4ff;border-radius:7px;padding:2px 6px;margin:0 -6px}.note{font-size:13px;color:#5c6b80;line-height:1.7}.foot{text-align:center;color:#627087;margin-top:20px;font-size:13px}@media(max-width:480px){.card{padding:16px}.barrow{grid-template-columns:32px minmax(0,1fr) 70px 33px;gap:7px;font-size:12px}.stat{padding:11px}.stat strong{font-size:23px}}
+</style>
+</head>
+<body><main>
+<header><div class="brand">경기교사노조</div><h1>전국 초등 보직교사<br>배치 기준 비교 계산기</h1><p class="muted">학급 수를 슬라이더로 선택하면 17개 시·도의 보직교사 배치 기준을 한눈에 비교할 수 있습니다.</p></header>
+<section class="card"><div class="sliderhead"><strong>학교 전체 학급 수</strong><output class="big" id="count">24학급</output></div><input id="slider" type="range" min="1" max="80" value="24" step="1" aria-label="전체 학급 수"><div class="ends"><span>1학급</span><span>80학급</span></div><div class="quick" id="quick"></div></section>
+<section class="card"><div class="statrow"><div class="stat"><small>경기도 기준</small><strong id="gyeonggi">9명</strong></div><div class="stat"><small>전국 최고 기준값</small><strong id="max">12명</strong></div><div class="stat"><small>경기 대비 최대 차이</small><strong id="gap">+3명</strong></div></div><p id="tops" class="muted"></p></section>
+<section class="card"><div class="comparetitle"><h2 style="margin:0;font-size:20px">시·도별 배치 기준</h2><span id="scope" class="muted"></span></div><div class="bars" id="bars"></div><p class="note">막대는 기본 배치 인원 또는 규정상 상한값을 나타냅니다. <b>‘이내’</b> 표시는 확정 배치가 아닌 상한이며, <b>전남</b>은 표시 인원 외에 1명 추가가 가능합니다. <b>미제시</b>는 제공된 기준표에 해당 학급 구간이 없는 경우입니다.</p></section>
+<section class="card"><h2 style="font-size:18px;margin-top:0">비교 시 유의사항</h2><p class="note">이 계산기는 제공된 17개 시·도 기준표를 비교용으로 구현한 것입니다. 개별 학교의 실제 보직교사 배치 인원과 다를 수 있습니다. ‘이내’ 수치는 최대 허용 인원이며, 경기도 대비 차이 또한 기준값 간 차이입니다. 기준 자료의 적용 연도 및 특례·추가 배치 여부는 별도로 확인해야 합니다.</p></section>
+<footer class="foot">경기교사노조 · 전국 초등 보직교사 배치 기준 비교</footer>
+</main><script>
+const base=[[5,null],[11,2],[17,4],[23,6],[29,8],[35,10],[Infinity,12]];
+const baseCap=base.map(([max,n])=>[max,n,max===Infinity]);
+const data=[
+['서울',[[20,10],[26,11],[32,12],[Infinity,13,true]]]],
+['부산',baseCap],['대구',baseCap],
+['인천',[[4,1],[7,3],[11,4],[15,8],[19,10],[23,11],[32,12],[Infinity,13,true]]]],
+['광주',base],['대전',baseCap],['울산',base],
+['세종',[[5,1],...baseCap.slice(1)]],
+['경기',[[11,3],[17,5],[23,7],[29,9],[35,10],[Infinity,12]]],
+['강원',[[5,1],...baseCap.slice(1)]],
+['충북',[[5,2],[11,3],[17,5],[23,7],[29,9],[35,11],[Infinity,13,true]]],
+['충남',base],['전북',[[5,1],...baseCap.slice(1)]],
+['전남',[[5,1],...base.slice(1)]],
+['경북',[[5,null],[11,2],[17,4],[23,6],[29,8],[35,10],[42,12],[Infinity,13]]],
+['경남',[[5,1],...baseCap.slice(1)]],['제주',baseCap]
+];
+const $=id=>document.getElementById(id);const slider=$('slider');const quick=[6,12,18,24,30,36,43,60];
+quick.forEach(n=>{const b=document.createElement('button');b.textContent=n+'학급';b.onclick=()=>{slider.value=n;render()};b.dataset.n=n;$('quick').appendChild(b)});
+function render(){const classes=+slider.value;$('count').textContent=classes+'학급';$('scope').textContent=classes+'학급 기준 · 단위: 명';
+const rows=data.map(([name,ranges])=>{const r=ranges.find(x=>classes<=x[0]);return {name,n:r?r[1]:null,cap:!!r?.[2],extra:name==='전남'}});
+const gg=rows.find(r=>r.name==='경기').n;const known=rows.filter(r=>r.n!==null);const max=Math.max(...known.map(r=>r.n));const leaders=known.filter(r=>r.n===max).map(r=>r.name);
+$('gyeonggi').textContent=gg+'명';$('max').textContent=max+'명';$('gap').textContent=(max-gg>0?'+':'')+(max-gg)+'명';$('tops').textContent='최고 기준값 지역: '+leaders.join('·')+' (상한값 포함)';
+$('bars').replaceChildren();rows.forEach(r=>{const item=document.createElement('div');item.className='barrow'+(r.name==='경기'?' ggrow':'');const dif=r.n===null?'—':r.name==='경기'?'기준':`${r.n-gg>0?'+':''}${r.n-gg}`;item.innerHTML=`<div class="region">${r.name}</div><div class="barbg"><div class="bar ${r.name==='경기'?'gg':''}" style="width:${r.n===null?0:r.n/14*100}%"></div></div><div class="num">${r.n===null?'미제시':r.n+'명'+(r.cap?' 이내':'')+(r.extra?'*':'')}</div><div class="diff ${r.n!==null&&r.n>gg?'up':r.n!==null&&r.n<gg?'down':''}">${dif}</div>`;$('bars').appendChild(item)});
+document.querySelectorAll('.quick button').forEach(b=>b.classList.toggle('active',Number(b.dataset.n)===classes));}
+slider.addEventListener('input',render);render();
+</script></body></html>
